@@ -1,4 +1,4 @@
-# Node Back-End - Build Week - tt_wbft_20 - Jennifer Kramer
+# Node Back-End - Build Week - Water My Plants tt_wbft_20 - Stone Cogswell
 
 **[Endpoints]** Base URL: https://water-my-plants-back-end.herokuapp.com/api
 
@@ -14,11 +14,7 @@
     - Endpoint: **/auth/register**
 
     **Fields:** </br>
-    "username" - string, unique (MUST not match any other registered username), REQUIRED </br>
-    "first_name" - string, REQUIRED </br>
-    "last_name" - string, REQUIRED </br>
-    "email" - string, unique (MUST not match any other registered email), REQUIRED </br>
-    "zipcode" - string, REQUIRED </br>
+    "user_username" - string, unique (MUST not match any other registered username), REQUIRED </br>
     "password" - string, REQUIRED </br>
     "role" - string, MUST be "owner" or "renter", REQUIRED </br>
 
