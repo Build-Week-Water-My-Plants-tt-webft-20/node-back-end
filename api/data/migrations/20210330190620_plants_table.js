@@ -3,7 +3,7 @@ exports.up = async (knex) => {
     table.increments("plant_id");
     table.string("plant_nickname", 128).notNullable();
     table.string("plant_image", 255);
-    table.decimal("plant_diameter").notNullable();
+    table.integer("plant_diameter").notNullable();
     table
       .integer("plant_species_id")
       .unsigned()
