@@ -3,7 +3,7 @@ exports.up = async (knex) => {
     .createTable("users", (table) => {
       table.increments("user_id");
       table.string("user_username", 128).notNullable();
-      table.string("user_phone_number", 128).notNullable();
+      table.integer("user_phone_number").notNullable();
       table.string("user_password", 128).notNullable();
     })
     .createTable("plant_h2o_frequencies", (table) => {
