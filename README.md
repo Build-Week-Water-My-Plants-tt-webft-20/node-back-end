@@ -47,3 +47,12 @@
   - **[GET] [FindUserById]** - Find a registered user by assigned user ID </br>
     - Endpoint: **/users/:id**
     - Example: https://water-my-plants-back-end.herokuapp.com/api/users/1
+
+Getting plants with raw sql:
+select p.plant_id, p.plant_nickname, p.plant_image, p.plant_diameter, ps.plant_species_name, pf.plant_h2o_frequency_name
+from plants as p
+left join plant_species as ps
+on p.plant_species_id = ps.plant_species_id
+left join plant_h2o_frequencies as pf
+on p.plant_h2o_frequency_id = pf.plant_h2o_frequency_id
+order by p.plant_id
