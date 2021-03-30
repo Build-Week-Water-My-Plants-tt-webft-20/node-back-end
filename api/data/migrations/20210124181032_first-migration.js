@@ -5,10 +5,7 @@ exports.up = async (knex) => {
     table.integer("user_phone_number").notNullable();
     table.string("user_password", 128).notNullable();
   });
-  // .createTable("plant_species", (table) => {
-  //   table.increments("plant_species_id");
-  //   table.string("plant_species_name", 128).notNullable().unique();
-  // })
+
   // .createTable("plants", (table) => {
   //   table.increments("plant_id");
   //   table.string("plant_nickname", 128).notNullable();
