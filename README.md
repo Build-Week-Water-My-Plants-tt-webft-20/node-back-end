@@ -54,5 +54,6 @@
     - Example: https://water-my-plants-back-end.herokuapp.com/api/plants
 
   - **[GET] [FindPlantById]** - Find a specific plant by its assigned plant ID </br>
+
     - Endpoint: **/users/:plant_id**
     - Example: https://water-my-plants-back-end.herokuapp.com/api/plants/1
