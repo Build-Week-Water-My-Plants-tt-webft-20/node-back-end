@@ -23,11 +23,6 @@ if (process.env.DATABASE_URL) {
 
 const sharedConfig = {
   client: "pg",
-  pool: {
-    afterCreate: (conn, done) => {
-      conn.run("PRAGMA foreign_keys = ON", done);
-    },
-  },
   migrations: { directory: "./api/data/migrations" },
   seeds: { directory: "./api/data/seeds" },
 };

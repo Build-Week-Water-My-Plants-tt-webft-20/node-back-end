@@ -10,4 +10,13 @@ router.get("/", (req, res, next) => {
     .catch(next);
 });
 
+router.get("/:user_id", (req, res, next) => {
+  const { user_id } = req.params;
+  User.findById(user_id)
+    .then((user) => {
+      res.json(user);
+    })
+    .catch(next);
+});
+
 module.exports = router;
