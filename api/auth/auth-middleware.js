@@ -2,15 +2,30 @@ const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../../config/secret");
 
 const checkPayload = (req, res, next) => {
-  const { username, password } = req.body;
-  const valid = Boolean(username && password && typeof password === "string");
-
-  if (valid) {
+  const { user_username, user_password, user_phone_number } = req.body;
+  if (
+    user_username &&
+    user_password &&
+    user_phone_number &&
+    typeof user_password === "string" &&
+    typeof user_phone_number === "number"
+  ) {
     next();
   } else {
     res.status(422).json({
       message:
-        "please provide username and password and the password shoud be alphanumeric",
+        "please provide username, password, and phone number and the password shoud be alphanumeric",
+    });
+  }
+};
+
+const checkLoginPayload = (req, res, next) => {
+  const { user_username, user_password } = req.body;
+  if (user_username && user_password) {
+    next();
+  } else {
+    res.status(422).json({
+      message: "please provide username and password",
     });
   }
 };
@@ -33,5 +48,6 @@ const restricted = (req, res, next) => {
 
 module.exports = {
   checkPayload,
+  checkLoginPayload,
   restricted,
 };
