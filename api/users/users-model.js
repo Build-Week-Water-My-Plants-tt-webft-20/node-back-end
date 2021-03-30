@@ -9,7 +9,6 @@ const findBy = (filter) => {
 };
 
 const findById = (user_id) => {
-  let foo = true;
   if (typeof user_id !== "number") {
     user_id = parseInt(user_id);
   }

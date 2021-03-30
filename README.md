@@ -15,12 +15,8 @@
 
     **Fields:** </br>
     "user_username" - string, unique (MUST not match any other registered username), REQUIRED </br>
-    "password" - string, REQUIRED </br>
-    "role" - string, MUST be "owner" or "renter", REQUIRED </br>
-
-    **SERVER PUTS IN THE FIELDS BELOW AUTOMATICALLY**
-    "created_at" - timestamp, no need on client-end </br>
-    "updated_at" - timestamp, no need on client-end </br>
+    "user_password" - string, REQUIRED </br>
+    "user_phone_number" - number, REQUIRED </br>
 
 ## [Login]
 
@@ -32,8 +28,8 @@
     - Endpoint: **/auth/login**
 
     **Fields:** </br>
-    "username" - string, MUST match a registered username, REQUIRED </br>
-    "password" - string, MUST match a registered password with registered username, REQUIRED </br>
+    "user_username" - string, MUST match a registered username, REQUIRED </br>
+    "user_password" - string, MUST match a registered password with registered username, REQUIRED </br>
 
 ## [Users]
 
@@ -45,14 +41,14 @@
     - Example: https://water-my-plants-back-end.herokuapp.com/api/users
 
   - **[GET] [FindUserById]** - Find a registered user by assigned user ID </br>
-    - Endpoint: **/users/:id**
+    - Endpoint: **/users/:user_id**
     - Example: https://water-my-plants-back-end.herokuapp.com/api/users/1
 
-Getting plants with raw sql:
-select p.plant_id, p.plant_nickname, p.plant_image, p.plant_diameter, ps.plant_species_name, pf.plant_h2o_frequency_name
-from plants as p
-left join plant_species as ps
-on p.plant_species_id = ps.plant_species_id
-left join plant_h2o_frequencies as pf
-on p.plant_h2o_frequency_id = pf.plant_h2o_frequency_id
-order by p.plant_id
+## [Plants]
+
+- Token required for seeing plants
+
+  - **[GET] [FindAllPlants]** - Finds all plants </br>
+
+    - Endpoint: **/plants**
+    - Example: https://water-my-plants-back-end.herokuapp.com/api/plants
