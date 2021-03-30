@@ -1,60 +1,118 @@
-# Build Week Scaffolding for Node and PostgreSQL
+# Node Back-End - Build Week - tt_wbft_20 - Jennifer Kramer
 
-## Video Tutorial
+**[Endpoints]** Base URL: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api
 
-The following tutorial explains how to set up this project using PostgreSQL and Heroku.
+- This url will be the beginning of all endpoints. Add the following endpoints below to the base URL.
 
-[![Setting up PostgreSQL for Build Week](https://img.youtube.com/vi/kTO_tf4L23I/maxresdefault.jpg)](https://www.youtube.com/watch?v=kTO_tf4L23I)
+## [Register]
 
-## Requirements
+- No token is required when registering
+- Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/auth/register
 
-- [PostgreSQL, pgAdmin 4](https://www.postgresql.org/download/) and [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed in your local machine.
-- A Heroku app with the [Heroku PostgreSQL Addon](https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres) added to it.
-- Development and testing databases created with [pgAdmin 4](https://www.pgadmin.org/docs/pgadmin4/4.29/database_dialog.html).
+  - **[POST] [Register]** - Register a new user </br>
 
-## Starting a New Project
+    - Endpoint: **/auth/register**
 
-- Create a new repository using this template, and clone it to your local.
-- Create a `.env` file and follow the instructions inside `knexfile.js`.
-- Fix the scripts inside `package.json` to use your Heroku app.
+    **Fields:** </br>
+    "username" - string, unique (MUST not match any other registered username), REQUIRED </br>
+    "first_name" - string, REQUIRED </br>
+    "last_name" - string, REQUIRED </br>
+    "email" - string, unique (MUST not match any other registered email), REQUIRED </br>
+    "zipcode" - string, REQUIRED </br>
+    "password" - string, REQUIRED </br>
+    "role" - string, MUST be "owner" or "renter", REQUIRED </br>
 
-## Scripts
+    **SERVER PUTS IN THE FIELDS BELOW AUTOMATICALLY**
+    "created_at" - timestamp, no need on client-end </br>
+    "updated_at" - timestamp, no need on client-end </br>
 
-- **start**: Runs the app.
-- **server**: Runs the app with Nodemon.
-- **migrate**: Migrates the local development database to the latest.
-- **rollback**: Rolls back migrations in the local development database.
-- **seed**: Truncates all tables in the local development database, feel free to add more seed files.
-- **test**: Runs tests.
-- **deploy**: Deploys the main branch to Heroku.
+## [Login]
 
-**The following scripts NEED TO BE EDITED before using: replace `YOUR_HEROKU_APP_NAME_HERE`**
+- Token required for login
+- Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/auth/login
 
-- **migrateh**: Migrates the Heroku database to the latest.
-- **rollbackh**: Rolls back migrations in the Heroku database.
-- **databaseh**: Interact with the Heroku database from the command line using psql.
-- **seedh**: Runs all seeds in the Heroku database.
+  - **[POST] [Login]** - Login an already registered user to receive a token </br>
 
-## Hot Tips
+    - Endpoint: **/auth/login**
 
-- Figure out the connection to the database and deployment before writing any code.
+    **Fields:** </br>
+    "username" - string, MUST match a registered username, REQUIRED </br>
+    "password" - string, MUST match a registered password with registered username, REQUIRED </br>
 
-- If you need to make changes to a migration file that has already been released to Heroku, follow this sequence:
+## [Users]
 
-  1. Roll back migrations in the Heroku database
-  2. Deploy the latest code to Heroku
-  3. Migrate the Heroku database to the latest
+- Token required for seeing users
 
-- If your frontend devs are clear on the shape of the data they need, you can quickly build provisional endpoints that return mock data. They shouldn't have to wait for you to build the entire backend.
+  - **[GET] [FindAllUsers]** - Finds all users (owners and renters) </br>
 
-- Keep your endpoints super lean: the bulk of the code belongs inside models and other middlewares.
+    - Endpoint: **/users**
+    - Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/users
 
-- Validating and sanitizing client data using a library is much less work than doing it manually.
+  - **[GET] [FindUserById]** - Find a registered user by assigned user ID </br>
+    - Endpoint: **/users/:id**
+    - Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/users/1
 
-- Revealing crash messages to clients is a security risk, but during development it's helpful if your frontend devs are able to tell you what crashed.
+## [Tech Items - Find]
 
-- PostgreSQL comes with [fantastic built-in functions](https://hashrocket.com/blog/posts/faster-json-generation-with-postgresql) for hammering rows into whatever JSON shape.
+- Token required to view tech items
 
-- If you want to edit a migration that has already been released but don't want to lose all the data, make a new migration instead. This is a more realistic flow for production apps: prod databases are never migrated down. We can migrate Heroku down freely only because there's no valuable data from customers in it. In this sense, Heroku is acting more like a staging environment than production.
+  - **[GET] [FindAllTechItems]** - Find all tech items </br>
 
-- If your fronted devs are interested in running the API locally, help them set up PostgreSQL & pgAdmin in their machines, and teach them how to run migrations in their local. This empowers them to (1) help you troubleshoot bugs, (2) obtain the latest code by simply doing `git pull` and (3) work with their own data, without it being wiped every time you roll back the Heroku db. Collaboration is more fun and direct, and you don't need to deploy as often.
+    - Endpoint: **/tech_items**
+    - Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/tech_items
+
+  - **[GET] [FindTechItemById]** - Find tech item by assigned ID </br>
+    - Endpoint: **/tech_items/:id**
+    - Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/tech_items/1
+
+## [Tech Items - Add]
+
+- Token required to add tech items
+- Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/tech_items
+
+  - **[POST] [AddNewTechItem]** - Add a new tech item </br>
+
+    - Endpoint: **/tech_items**
+
+    **Fields:** </br>
+    "img_url" - binary, up to 2000 characters </br>
+    "item_name" - string, up to 50 characters, REQUIRED </br>
+    "category" - string, REQUIRED </br>
+    "description" - text, up to 500 characters, REQUIRED </br>
+    "rented" - boolean, determines if available or rented, not required </br>
+    "price" - integer, REQUIRED </br>
+    "owner_username" - string, REQUIRED </br>
+
+    **SERVER PUTS IN THE FIELDS BELOW AUTOMATICALLY**
+    "created_at" - timestamp, no need on client-end </br>
+    "updated_at" - timestamp, no need on client-end </br>
+
+## [Tech Items - Update]
+
+- Token required to update tech item by ID
+- Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/tech_items/1
+
+  - **[PUT] [UpdateTechItem]** - Edit a registered tech item </br>
+
+    - Endpoint: **/tech_items/:id**
+
+    **Fields:** </br>
+    "img_url" - binary, up to 2000 characters </br>
+    "item_name" - string, up to 50 characters, REQUIRED </br>
+    "category" - string, REQUIRED </br>
+    "description" - text, up to 500 characters, REQUIRED </br>
+    "rented" - boolean, determines if available or rented, not required </br>
+    "price" - integer, REQUIRED </br>
+    "owner_username" - string, REQUIRED </br>
+
+    **SERVER PUTS IN THE FIELDS BELOW AUTOMATICALLY**
+    "created_at" - timestamp, no need on client-end </br>
+    "updated_at" - timestamp, no need on client-end </br>
+
+## [Tech Items - Delete]
+
+- Token required to remove tech item by ID
+- Example: https://ttwebft20-use-my-tech-stuff.herokuapp.com/api/tech_items/1
+
+  - **[DELETE] [DeleteTechItem]** - Delete a registered tech item </br>
+    - Endpoint: **/tech_items/:id**
