@@ -6,5 +6,5 @@ exports.up = async (knex) => {
 };
 
 exports.down = function (knex) {
-  knex.schema.dropTableIfExists("plant_h2o_frequencies");
+  return knex.schema.dropTableIfExists("plant_h2o_frequencies");
 };
