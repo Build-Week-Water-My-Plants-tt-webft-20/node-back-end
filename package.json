@@ -4,6 +4,8 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
+    "mup": "knex migrate:up",
+    "mud": "knex migrate:down",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",

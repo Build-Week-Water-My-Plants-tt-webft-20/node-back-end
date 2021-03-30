@@ -5,10 +5,6 @@ exports.up = async (knex) => {
     table.integer("user_phone_number").notNullable();
     table.string("user_password", 128).notNullable();
   });
-  // .createTable("plant_h2o_frequencies", (table) => {
-  //   table.increments("plant_h2o_frequency_id");
-  //   table.string("plant_h2o_frequency_name", 128).notNullable();
-  // })
   // .createTable("plant_species", (table) => {
   //   table.increments("plant_species_id");
   //   table.string("plant_species_name", 128).notNullable().unique();
@@ -49,7 +45,6 @@ exports.down = function (knex) {
     knex.schema
       // .dropTableIfExists("plants")
       // .dropTableIfExists("plant_species")
-      // .dropTableIfExists("plant_h2o_frequencies")
       .dropTableIfExists("users")
   );
 };
