@@ -9,14 +9,19 @@ const findBy = (filter) => {
 };
 
 const findById = (user_id) => {
+  let foo = true;
+  if (typeof user_id !== "number") {
+    user_id = parseInt(user_id);
+  }
   return db("users").where("user_id", user_id).first();
 };
 
 const add = (user) => {
   return db("users")
     .insert(user)
+    .returning("user_id")
     .then((user_id) => {
-      return findById(user_id);
+      return findById(user_id[0]);
     });
 };
 

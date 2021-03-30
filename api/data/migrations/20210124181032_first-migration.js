@@ -41,7 +41,6 @@ exports.down = function (knex) {
   return (
     knex.schema
       // .dropTableIfExists("plants")
-      // .dropTableIfExists("plant_species")
       .dropTableIfExists("users")
   );
 };

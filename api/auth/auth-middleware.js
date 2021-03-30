@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../../config/secret");
+const User = require("../users/users-model");
 
 const checkPayload = (req, res, next) => {
   const { user_username, user_password, user_phone_number } = req.body;
@@ -30,6 +31,33 @@ const checkLoginPayload = (req, res, next) => {
   }
 };
 
+async function checkUsernameFree(req, res, next) {
+  try {
+    const rows = await User.findBy({ user_username: req.body.user_username });
+    if (!rows.length) {
+      next();
+    } else {
+      res.status(422).json({ message: "Username taken" });
+    }
+  } catch (e) {
+    next(e);
+  }
+}
+
+async function checkUsernameExists(req, res, next) {
+  try {
+    const rows = await User.findBy({ user_username: req.body.user_username });
+    if (rows.length) {
+      req.userData = rows[0];
+      next();
+    } else {
+      res.status(401).json({ message: "Invalid credentials" });
+    }
+  } catch (e) {
+    next(e);
+  }
+}
+
 const restricted = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
@@ -49,5 +77,7 @@ const restricted = (req, res, next) => {
 module.exports = {
   checkPayload,
   checkLoginPayload,
+  checkUsernameFree,
+  checkUsernameExists,
   restricted,
 };
