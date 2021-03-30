@@ -1,12 +1,13 @@
 exports.seed = function (knex) {
   return knex("plant_species")
-    .truncate()
+    .del()
     .then(function () {
       return knex("plant_species").insert([
-        { plant_species_name: "bamboo" },
-        { plant_species_name: "black alder" },
-        { plant_species_name: "cat grass" },
-        { plant_species_name: "yarrow" },
+        { plant_species_name: "Hibiscus" },
+        { plant_species_name: "Astrophytum" },
+        { plant_species_name: "Bunchberry" },
+        { plant_species_name: "Forsythia" },
+        { plant_species_name: "Maple" },
       ]);
     });
 };
