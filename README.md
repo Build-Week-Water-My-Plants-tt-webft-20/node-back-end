@@ -55,5 +55,20 @@
 
   - **[GET] [FindPlantById]** - Find a specific plant by its assigned plant ID </br>
 
+    - Endpoint: **/plants/:plant_id**
+    - Example: https://water-my-plants-back-end.herokuapp.com/api/plants/1
+
+  - **[GET] [FindPlantsByUserId]** - Find a user's plants by their assigned user ID </br>
+
     - Endpoint: **/users/:plant_id**
+    - Example: https://water-my-plants-back-end.herokuapp.com/api/plants/user/1
+
+  - **[POST] [AddPlants]** - Create a new user plant. </br>
+
+    - Endpoint: **/plants**
+    - Example: https://water-my-plants-back-end.herokuapp.com/api/plants
+
+  - **[DELETE] [RemovePlantById]** - Remove a user's plant by their assigned plant ID </br>
+
+    - Endpoint: **/plant/:plant_id**
     - Example: https://water-my-plants-back-end.herokuapp.com/api/plants/1
