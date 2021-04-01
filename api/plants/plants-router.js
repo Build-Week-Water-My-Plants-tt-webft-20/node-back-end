@@ -29,6 +29,15 @@ router.post("/", restricted, async (req, res, next) => {
   }
 });
 
+router.put("/:plant_id", restricted, async (req, res, next) => {
+  try {
+    const data = await Plant.updatePlant(req.body, req.params.plant_id);
+    return res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.delete("/:plant_id", restricted, async (req, res, next) => {
   try {
     Plant.removePlant(parseInt(req.params.plant_id));

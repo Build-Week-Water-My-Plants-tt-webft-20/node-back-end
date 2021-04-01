@@ -77,9 +77,32 @@ const addPlant = async (body) => {
   return db("plants").where("plant_id", id).first();
 };
 
+const updatePlant = async (changes, id) => {
+  let species_id = null;
+  // Check if species exist
+  let species = await db("plant_species")
+    .where("plant_species_name", changes.plant_species_name)
+    .first();
+  if (species !== null && typeof species !== "undefined") {
+    species_id = species.plant_species_id;
+  } else {
+    const [id] = await db("plant_species").insert(
+      {
+        plant_species_name: changes.plant_species_name,
+      },
+      "plant_species_id"
+    );
+    species_id = id;
+  }
+  changes.plant_species_id = species_id;
+  delete changes.plant_species_name;
+  await db("plants").where("plant_id", id).update(changes);
+  return db("plants").where("plant_id", id).first();
+};
+
 const removePlant = async (id) => {
   let data = await db("plants").where("plant_id", id).del();
   return data;
 };
 
-module.exports = { find, findById, addPlant, removePlant };
+module.exports = { find, findById, addPlant, updatePlant, removePlant };
