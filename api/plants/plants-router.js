@@ -19,6 +19,15 @@ router.get("/:plant_id", restricted, (req, res, next) => {
     .catch(next);
 });
 
+router.get("/user/:user_id", restricted, async (req, res, next) => {
+  const { user_id } = req.params;
+  Plant.findAllByUserId(user_id)
+    .then((plants) => {
+      res.json(plants);
+    })
+    .catch(next);
+});
+
 router.post("/", restricted, async (req, res, next) => {
   try {
     req.body.user_id = req.decodedToken.subject;
