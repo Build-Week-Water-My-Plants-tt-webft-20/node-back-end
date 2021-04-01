@@ -52,6 +52,33 @@ const findById = async (plant_id) => {
   return data;
 };
 
+const findAllByUserId = async (user_id) => {
+  let data = await db("plants as p")
+    .leftJoin(
+      "plant_species as ps",
+      "p.plant_species_id",
+      "ps.plant_species_id"
+    )
+    .leftJoin(
+      "plant_h2o_frequencies as pf",
+      "p.plant_h2o_frequency_id",
+      "pf.plant_h2o_frequency_id"
+    )
+    .leftJoin("users as u", "p.user_id", "u.user_id")
+    .select(
+      "p.plant_id",
+      "p.plant_nickname",
+      "p.plant_image",
+      "p.plant_diameter",
+      "ps.plant_species_name",
+      "pf.plant_h2o_frequency_name",
+      "u.user_id"
+    )
+    .orderBy("p.plant_id")
+    .where("p.user_id", user_id);
+  return data;
+};
+
 const addPlant = async (body) => {
   let species_id = null;
   // Check if species exist
@@ -105,4 +132,11 @@ const removePlant = async (id) => {
   return data;
 };
 
-module.exports = { find, findById, addPlant, updatePlant, removePlant };
+module.exports = {
+  find,
+  findById,
+  findAllByUserId,
+  addPlant,
+  updatePlant,
+  removePlant,
+};
