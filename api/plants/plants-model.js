@@ -20,7 +20,7 @@ const find = () => {
       "p.plant_diameter",
       "ps.plant_species_name",
       "pf.plant_h2o_frequency_name",
-      "u.user_username"
+      "u.user_id"
     )
     .orderBy("p.plant_id");
 };
@@ -46,10 +46,40 @@ const findById = async (plant_id) => {
       "p.plant_diameter",
       "ps.plant_species_name",
       "pf.plant_h2o_frequency_name",
-      "u.user_username"
+      "u.user_id"
     )
     .orderBy("p.plant_id");
   return data;
 };
 
-module.exports = { find, findById };
+const addPlant = async (body) => {
+  let species_id = null;
+  // Check if species exist
+  let species = await db("plant_species")
+    .where("plant_species_name", body.plant_species_name)
+    .first();
+  if (species !== null && typeof species !== "undefined") {
+    species_id = species.plant_species_id;
+  } else {
+    const [id] = await db("plant_species").insert(
+      {
+        plant_species_name: body.plant_species_name,
+      },
+      "plant_species_id"
+    );
+    species_id = id;
+  }
+  body.plant_species_id = species_id;
+  delete body.plant_species_name;
+  // If species doesn't exist then insert the species
+  // Finally, now that we have species_id we can insert the plant
+  const [id] = await db("plants").insert(body, "plant_id");
+  return db("plants").where("plant_id", id).first();
+};
+
+const removePlant = async (id) => {
+  let data = await db("plants").where("plant_id", id).del();
+  return data;
+};
+
+module.exports = { find, findById, addPlant, removePlant };

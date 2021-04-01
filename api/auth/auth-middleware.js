@@ -65,7 +65,7 @@ const restricted = (req, res, next) => {
   } else {
     jwt.verify(token, jwtSecret, (err, decoded) => {
       if (err) {
-        res.status(401).json("The token is bad ): " + err.meassage);
+        res.status(401).json("The token is bad ):");
       } else {
         req.decodedToken = decoded;
         next();
