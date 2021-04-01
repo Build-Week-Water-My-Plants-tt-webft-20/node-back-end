@@ -60,7 +60,7 @@
 
   - **[GET] [FindPlantsByUserId]** - Find a user's plants by their assigned user ID </br>
 
-    - Endpoint: **/users/:plant_id**
+    - Endpoint: **/plants/user/:user_id**
     - Example: https://water-my-plants-back-end.herokuapp.com/api/plants/user/1
 
   - **[POST] [AddPlants]** - Create a new user plant. </br>
