@@ -68,6 +68,11 @@
     - Endpoint: **/plants**
     - Example: https://water-my-plants-back-end.herokuapp.com/api/plants
 
+  - **[PUT] [AddPlants]** - Update an existing user's plant. </br>
+
+    - Endpoint: **/plants/:plant_id**
+    - Example: https://water-my-plants-back-end.herokuapp.com/api/plants/1
+
   - **[DELETE] [RemovePlantById]** - Remove a user's plant by their assigned plant ID </br>
 
     - Endpoint: **/plant/:plant_id**
