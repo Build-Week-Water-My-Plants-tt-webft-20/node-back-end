@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Plant = require("./plants-model");
 const { restricted } = require("../auth/auth-middleware");
+const { checkUserId } = require("../users/users-middleware");
 
 router.get("/", restricted, (req, res, next) => {
   Plant.find()
@@ -19,14 +20,19 @@ router.get("/:plant_id", restricted, (req, res, next) => {
     .catch(next);
 });
 
-router.get("/user/:user_id", restricted, async (req, res, next) => {
-  const { user_id } = req.params;
-  Plant.findAllByUserId(user_id)
-    .then((plants) => {
-      res.json(plants);
-    })
-    .catch(next);
-});
+router.get(
+  "/user/:user_id",
+  restricted,
+  checkUserId,
+  async (req, res, next) => {
+    const { user_id } = req.params;
+    Plant.findAllByUserId(user_id)
+      .then((plants) => {
+        res.json(plants);
+      })
+      .catch(next);
+  }
+);
 
 router.post("/", restricted, async (req, res, next) => {
   try {
