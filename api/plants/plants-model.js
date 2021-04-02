@@ -81,7 +81,6 @@ const findAllByUserId = async (user_id) => {
 
 const addPlant = async (body) => {
   let species_id = null;
-  // Check if species exist
   let species = await db("plant_species")
     .where("plant_species_name", body.plant_species_name)
     .first();
@@ -98,15 +97,32 @@ const addPlant = async (body) => {
   }
   body.plant_species_id = species_id;
   delete body.plant_species_name;
-  // If species doesn't exist then insert the species
-  // Finally, now that we have species_id we can insert the plant
+  let plant_h2o_frequency_id = null;
+  let plant_h2o_frequency = await db("plant_h2o_frequencies")
+    .where("plant_h2o_frequency_name", body.plant_h2o_frequency_name)
+    .first();
+  if (
+    plant_h2o_frequency !== null &&
+    typeof plant_h2o_frequency !== "undefined"
+  ) {
+    plant_h2o_frequency_id = plant_h2o_frequency.plant_h2o_frequency_id;
+  } else {
+    const [id] = await db("plant_h2o_frequency").insert(
+      {
+        plant_h2o_frequency_name: body.plant_h2o_frequency_name,
+      },
+      "plant_h2o_frequency_id"
+    );
+    plant_h2o_frequency_id = id;
+  }
+  body.plant_h2o_frequency_id = plant_h2o_frequency_id;
+  delete body.plant_h2o_frequency_name;
   const [id] = await db("plants").insert(body, "plant_id");
   return db("plants").where("plant_id", id).first();
 };
 
 const updatePlant = async (changes, id) => {
   let species_id = null;
-  // Check if species exist
   let species = await db("plant_species")
     .where("plant_species_name", changes.plant_species_name)
     .first();
@@ -123,6 +139,26 @@ const updatePlant = async (changes, id) => {
   }
   changes.plant_species_id = species_id;
   delete changes.plant_species_name;
+  let plant_h2o_frequency_id = null;
+  let plant_h2o_frequency = await db("plant_h2o_frequencies")
+    .where("plant_h2o_frequency_name", changes.plant_h2o_frequency_name)
+    .first();
+  if (
+    plant_h2o_frequency !== null &&
+    typeof plant_h2o_frequency !== "undefined"
+  ) {
+    plant_h2o_frequency_id = plant_h2o_frequency.plant_h2o_frequency_id;
+  } else {
+    const [id] = await db("plant_h2o_frequency").insert(
+      {
+        plant_h2o_frequency_name: changes.plant_h2o_frequency_name,
+      },
+      "plant_h2o_frequency_id"
+    );
+    plant_h2o_frequency_id = id;
+  }
+  changes.plant_h2o_frequency_id = plant_h2o_frequency_id;
+  delete changes.plant_h2o_frequency_name;
   await db("plants").where("plant_id", id).update(changes);
   return db("plants").where("plant_id", id).first();
 };
