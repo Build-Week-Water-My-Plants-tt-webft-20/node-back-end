@@ -9,7 +9,7 @@ const checkPayload = (req, res, next) => {
     user_password &&
     user_phone_number &&
     typeof user_password === "string" &&
-    typeof user_phone_number === "number"
+    typeof user_phone_number === "string"
   ) {
     next();
   } else {

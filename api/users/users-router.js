@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const User = require("./users-model");
 const { restricted } = require("../auth/auth-middleware");
+const { checkUserId } = require("./users-middleware");
 
 router.get("/", restricted, (req, res, next) => {
   User.find()
@@ -11,7 +12,7 @@ router.get("/", restricted, (req, res, next) => {
     .catch(next);
 });
 
-router.get("/:user_id", restricted, (req, res, next) => {
+router.get("/:user_id", restricted, checkUserId, (req, res, next) => {
   const { user_id } = req.params;
   User.findById(user_id)
     .then((user) => {

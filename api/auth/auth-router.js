@@ -52,7 +52,8 @@ router.post(
         if (user && bcrypt.compareSync(user_password, user.user_password)) {
           const token = makeToken(user);
           res.status(200).json({
-            message: `Welcome ${user.user_username}!`,
+            user_username: user_username,
+            user_id: user.user_id,
             token,
           });
         } else {
